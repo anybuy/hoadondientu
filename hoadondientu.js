@@ -6,7 +6,7 @@ const formatDate = (dateString, isStart) => {
     const day = date.getDate().toString().padStart(2, '0');
     const year = date.getFullYear().toString();
     const time = isStart ? '00:00:00' : '23:59:59';
-    return `${day}/${month}/${year}T${time}`;
+    return '${day}/${month}/${year}T${time}';
 };
 
 const fetchAllData = async (invoiceType) => {
@@ -16,13 +16,13 @@ const fetchAllData = async (invoiceType) => {
     const formattedEndDate = formatDate(endDateValue);
     const ketQuaKiemTra = document.getElementById('kqkt').value;
 
-    const getUrl = `${baseUrl}/${invoiceType}?sort=tdlap:desc,khmshdon:asc,shdon:desc&size=10&search=tdlap=ge=${formattedStartDate};tdlap=le=${formattedEndDate};ttxly==${ketQuaKiemTra}`;
+    const getUrl = '${baseUrl}/${invoiceType}?sort=tdlap:desc,khmshdon:asc,shdon:desc&size=10&search=tdlap=ge=${formattedStartDate};tdlap=le=${formattedEndDate};ttxly==${ketQuaKiemTra}';
 
     let size = 1;
     const response1 = await fetch(getUrl, {
         method: 'GET',
         headers: {
-            'Authorization': `Bearer ${token()}`,
+            'Authorization': 'Bearer ${token()}',
             'Content-Type': 'application/json'
         }
     });
@@ -34,12 +34,12 @@ const fetchAllData = async (invoiceType) => {
     const data1 = await response1.json();
     size = data1.total;
 
-    const getUrl2 = `${baseUrl}/${invoiceType}?sort=tdlap:desc,khmshdon:asc,shdon:desc&size=${size}&search=tdlap=ge=${formattedStartDate};tdlap=le=${formattedEndDate};ttxly==${ketQuaKiemTra}`;
+    const getUrl2 = '${baseUrl}/${invoiceType}?sort=tdlap:desc,khmshdon:asc,shdon:desc&size=${size}&search=tdlap=ge=${formattedStartDate};tdlap=le=${formattedEndDate};ttxly==${ketQuaKiemTra}';
 
     const response2 = await fetch(getUrl2, {
         method: 'GET',
         headers: {
-            'Authorization': `Bearer ${token()}`,
+            'Authorization': 'Bearer ${token()}',
             'Content-Type': 'application/json'
         }
     });
@@ -62,12 +62,12 @@ const fetchData = async (url) => {
     const response = await fetch(url, {
         method: 'GET',
         headers: {
-            'Authorization': `Bearer ${token()}`
+            'Authorization': 'Bearer ${token()}'
         }
     });
 
     if (!response.ok) {
-        throw new Error(`Failed to fetch ${url}`);
+        throw new Error('Failed to fetch ${url}');
     }
 
     return response.blob();
@@ -87,7 +87,7 @@ const fetchAndZipFiles = async (type) => {
             const batch = urls.slice(i, i + batchSize);
             const fileBlobs = await Promise.all(batch.map(url => fetchData(url)));
             fileBlobs.forEach((blob, index) => {
-                zip.file(`file_${index + i + 1}.zip`, blob);
+                zip.file('file_${index + i + 1}.zip', blob);
             });
         }
 
